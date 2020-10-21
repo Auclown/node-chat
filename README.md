@@ -15,3 +15,7 @@ Memory refresh #2
 
 Basic chat feature added. Users can send message and share location
 but just in console. Need more works on this.
+
+### 22nd/Oct/2020:
+
+Now users' messages are being rendered on the page as they are sent.
