@@ -19,3 +19,10 @@ but just in console. Need more works on this.
 ### 22nd/Oct/2020:
 
 Now users' messages are being rendered on the page as they are sent.
+
+### 23rd/Oct/2020:
+
+- Style applied.
+- Can render location message on the screen.
+- Displays time sent.
+- Pages separated - now users can use display name they desire and enter specific room. Need more working on this.

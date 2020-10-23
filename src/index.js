@@ -4,10 +4,12 @@ const http = require("http");
 const socketio = require("socket.io");
 const Filter = require("bad-words");
 
+const { generateMessage, generateLocation } = require("./utils/messages");
 const {
   connection,
   sendMessage,
   sendLocation,
+  locationMessage,
   disconnect,
 } = require("../config/strings");
 
@@ -23,7 +25,8 @@ app.use(express.static(publicDirectoryPath));
 io.on(connection, (socket) => {
   console.log("New connection detected");
 
-  socket.emit(sendMessage, "Welcome!");
+  socket.emit(sendMessage, generateMessage("Welcome!"));
+
   socket.broadcast.emit(sendMessage, "A new user has joined.");
 
   socket.on(sendMessage, (message, callback) => {
@@ -33,20 +36,22 @@ io.on(connection, (socket) => {
       return callback("Profanity is not allowed");
     }
 
-    io.emit(sendMessage, message);
+    io.emit(sendMessage, generateMessage(message));
     callback();
   });
 
   socket.on(sendLocation, (coords, callback) => {
     io.emit(
-      sendMessage,
-      `https://google.com/maps?q=${coords.latitude},${coords.longitude}`
+      locationMessage,
+      generateLocation(
+        `https://google.com/maps?q=${coords.latitude},${coords.longitude}`
+      )
     );
     callback();
   });
 
   socket.on(disconnect, () => {
-    io.emit(sendMessage, "A user has left.");
+    io.emit(sendMessage, generateMessage("A user has left."));
   });
 });
 
