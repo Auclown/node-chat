@@ -26,3 +26,11 @@ Now users' messages are being rendered on the page as they are sent.
 - Can render location message on the screen.
 - Displays time sent.
 - Pages separated - now users can use display name they desire and enter specific room. Need more working on this.
+
+### 24th/Oct/2020:
+
+- Helper methods for users created in src/utils/users.js and used.
+- Helper methods are for checking if users' desired username is valid or is already taken,
+  and storing user and removing user from the room.
+- Now only users in the same room can communicate each other.
+- Username is being displayed now.
