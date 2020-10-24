@@ -5,6 +5,7 @@ const events = {
   sendLocation: "sendLocation",
   locationMessage: "locationMessage",
   join: "join",
+  updateRoom: "updateRoom",
 };
 
 // Elements
@@ -19,11 +20,34 @@ const messageTemplate = document.querySelector("#message-template").innerHTML;
 const locationMessageTemplate = document.querySelector(
   "#location-message-template"
 ).innerHTML;
+const sidebarTemplate = document.querySelector("#sidebar-template").innerHTML;
 
 // Options
 const { username, room } = Qs.parse(location.search, {
   ignoreQueryPrefix: true,
 });
+
+const autoscroll = () => {
+  const $newMessage = $messages.lastElementChild;
+
+  // Height of new message
+  const newMessageStyles = getComputedStyle($newMessage);
+  const newMessageMargin = parseInt(newMessageStyles.marginBottom);
+  const newMessageHeight = $newMessage.offsetHeight + newMessageMargin;
+
+  // Visible height
+  const visibleHeight = $messages.offsetHeight;
+
+  // Height of messages container
+  const containerHeight = $messages.scrollHeight;
+
+  // How far have I scrolled?
+  const scrollOffset = $messages.scrollTop + visibleHeight;
+
+  if (containerHeight - newMessageHeight <= scrollOffset) {
+    $messages.scrollTop = $messages.scrollHeight;
+  }
+};
 
 socket.on(events.sendMessage, (message) => {
   const html = Mustache.render(messageTemplate, {
@@ -32,6 +56,7 @@ socket.on(events.sendMessage, (message) => {
     createdAt: moment(message.createdAt).format("h:mm a"),
   });
   $messages.insertAdjacentHTML("beforeend", html);
+  autoscroll();
 });
 
 socket.on(events.locationMessage, (message) => {
@@ -41,6 +66,15 @@ socket.on(events.locationMessage, (message) => {
     createdAt: moment(message.createdAt).format("h:mm a"),
   });
   $messages.insertAdjacentHTML("beforeend", html);
+  autoscroll();
+});
+
+socket.on(events.updateRoom, ({ room, users }) => {
+  const html = Mustache.render(sidebarTemplate, {
+    room,
+    users,
+  });
+  document.querySelector("#sidebar").innerHTML = html;
 });
 
 $messageForm.addEventListener("submit", (e) => {

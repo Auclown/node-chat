@@ -20,6 +20,7 @@ const {
   locationMessage,
   disconnect,
   join,
+  updateRoom,
 } = require("../config/strings");
 
 const app = express();
@@ -47,6 +48,10 @@ io.on(connection, (socket) => {
         sendMessage,
         generateMessage(ADMIN, `${user.username} has joined.`)
       );
+    io.to(user.room).emit(updateRoom, {
+      room: user.room,
+      users: getUsersInRoom(user.room),
+    });
 
     callback();
   });
@@ -83,6 +88,10 @@ io.on(connection, (socket) => {
         sendMessage,
         generateMessage(ADMIN, `${user.username} has left.`)
       );
+      io.to(user.room).emit(updateRoom, {
+        room: user.room,
+        users: getUsersInRoom(user.room),
+      });
     }
   });
 });

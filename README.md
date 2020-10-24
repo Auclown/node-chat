@@ -34,3 +34,10 @@ Now users' messages are being rendered on the page as they are sent.
   and storing user and removing user from the room.
 - Now only users in the same room can communicate each other.
 - Username is being displayed now.
+
+### 25th/Oct/2020:
+
+- Now users can see a list that shows other users that are in the same room.
+- Screen now scrolls down automatically as messages are added.
+
+---
