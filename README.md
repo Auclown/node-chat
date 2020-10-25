@@ -41,3 +41,8 @@ Now users' messages are being rendered on the page as they are sent.
 - Screen now scrolls down automatically as messages are added.
 
 ---
+
+## Heroku
+
+Uploaded on Heroku:
+[:earth_asia:](https://auclown-node-chat.herokuapp.com/)
