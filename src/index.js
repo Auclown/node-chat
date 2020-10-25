@@ -21,7 +21,7 @@ const {
   disconnect,
   join,
   updateRoom,
-} = require("../config/strings");
+} = require("./utils/strings");
 
 const app = express();
 const server = http.createServer(app);
